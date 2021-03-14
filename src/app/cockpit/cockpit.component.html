@@ -8,7 +8,13 @@
         class="form-control" 
         #serverNameInput>
       <label>Server Content</label>
-      <input type="text" class="form-control" [(ngModel)]="newServerContent">
+      <!-- below is old solution using two way binding -->
+      <!-- <input type="text" class="form-control" [(ngModel)]="newServerContent"> -->
+      <!-- remove ngModel two way binding from input below, use local reference-->
+      <input 
+        type="text" 
+        class="form-control" 
+        #serverContentInput>
       <br>
       <button
         class="btn btn-primary"
