@@ -12,7 +12,8 @@ import {
   AfterViewChecked,
   OnDestroy,
   ViewChild,
-  ElementRef
+  ElementRef,
+  ContentChild
 } from '@angular/core';
 //import { Server } from 'http';
 
@@ -33,7 +34,10 @@ export class ServerElementComponent implements
   OnDestroy {
   @Input('srvElement') element: {type: string, name: string, content: string};
   @Input() name: string;
+  // added viewchild, linked to #heading in html, creating ElementRef
   @ViewChild('heading', { static: true}) header: ElementRef;
+  //use contentParagraph selector, as built in app.component.html, store in ElementRef
+  @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
 
   constructor() {
     console.log('constructor called');
@@ -47,8 +51,11 @@ export class ServerElementComponent implements
 
   ngOnInit(): void {
     console.log('ngOnInit called');
-    console.log('Text content:' + this.header.nativeElement.textContent);
-
+    //console log uses textContent from element ref built by viewchild to display text 
+    //won't show anything oninit because it hasn't been called yet
+    console.log('Text content: ' + this.header.nativeElement.textContent);
+    //like viewchild above, contentchild below won't display anything in oninit
+    console.log('Text content of paragraph: ' + this.paragraph.nativeElement.textContent);
   }
 
   ngDoCheck() {
@@ -57,6 +64,8 @@ export class ServerElementComponent implements
 
   ngAfterContentInit() {
     console.log('ngAfterContentInit Called');
+    console.log('Text content of paragraph: ' + this.paragraph.nativeElement.textContent);
+
   }
 
   ngAfterContentChecked() {
@@ -66,6 +75,7 @@ export class ServerElementComponent implements
 
   ngAfterViewInit() {
     console.log('ngAfterViewInit Called');
+    //text content will be displayed because it's been built by the time afterviewinit comes in to play
     console.log('Text content:' + this.header.nativeElement.textContent);
 
   }
